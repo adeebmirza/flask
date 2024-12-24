@@ -34,5 +34,5 @@ jobs:
       - name: "Deploy to AWS"
         run: |
           source venv/bin/activate
-          pm2 start "flask run --host=0.0.0.0 --port=5000" --name flask-app
+          pm2 restart flask-app
 
