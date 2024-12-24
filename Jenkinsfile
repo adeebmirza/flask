@@ -1,18 +1,10 @@
 pipeline {
     agent any
-    options {
-        skipDefaultCheckout(true)
-    }
-    stages {
-        stage("Cleanup") {
-            steps {
-                cleanWs()
-            }
         }
         stage("Checkout") {
             steps {
                 checkout scm
-                sh 'echo "Workspace contents after checkout:" && ls -R'
+                sh 'echo "Workspace contents after checkout:" && ls -R' // Debug: List all files and directories
             }
         }
         stage("Build") {
@@ -23,36 +15,27 @@ pipeline {
                 }
             }
             steps {
-                sh '''
-                    set -e
+               sh '''
+               set -e
 
-                    echo "Listing files in the container's working directory..."
-                    ls -l
-                    
-                    echo "Checking Python and pip versions..."
-                    python --version
-                    pip --version
-
-                    echo "Checking for requirements.txt in the container..."
-                    if [[ ! -f "requirements.txt" ]]; then
-                        echo "Error: requirements.txt not found in $(pwd)"
-                        echo "Listing all files in the current directory:"
-                        ls -la
-                        exit 1
-                    fi
-
-                    echo "Installing dependencies from requirements.txt..."
-                    pip install -r requirements.txt
-
-                    echo "Setting up Flask application..."
-                    if [[ ! -f "app.py" ]]; then
-                        echo "Error: app.py not found!"
-                        exit 1
-                    fi
-                    export FLASK_APP=app.py
-                    flask --help
-                '''
+                echo "Listing files in the container's working directory..."
+                ls -l
+                # List files in the current workspace
+                ls -l
+                
+                # Display Python and pip versions
+                python --version
+                pip --version
+                
+                # Install dependencies (assuming requirements.txt exists)
+                pip install -r requirements.txt
+                
+                # Run the Flask application build or initialization commands
+                export FLASK_APP=app.py
+                flask --help # Check Flask is correctly installed
+                ls -l
+            '''
             }
         }
-    }
-}
+
+    
