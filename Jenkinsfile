@@ -1,5 +1,13 @@
 pipeline {
     agent any
+    options {
+        skipDefaultCheckout(true)
+    }
+    stages {
+        stage("Cleanup") {
+            steps {
+                cleanWs()
+            }
         }
         stage("Checkout") {
             steps {
@@ -37,5 +45,5 @@ pipeline {
             '''
             }
         }
-
-    
+    }
+}
