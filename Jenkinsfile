@@ -23,7 +23,7 @@ pipeline {
             pip install -r requirements.txt
             
             # Run the Flask application build or initialization commands
-            pyhton app.py
+            python app.py
             ls -l
         '''
     }
