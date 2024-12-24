@@ -11,7 +11,11 @@ pipeline {
     }
 
     steps {
-        sh '''
+        steps("Cleanup workspace") {
+            cleanWs()
+        }
+        steps("Build Project") {
+            sh '''
             # List files in the current workspace
             ls -l
             
@@ -27,6 +31,7 @@ pipeline {
             flask --help # Check Flask is correctly installed
             ls -l
         '''
+        }
     }
 
         }
