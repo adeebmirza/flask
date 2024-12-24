@@ -1,5 +1,21 @@
 pipeline {
     agent any
+    options {
+        skipDefaultCheckout(true)
+    }
+    stages{
+        stage("Cleanup"){
+            steps{
+                cleanWs()
+            }
+        }
+        stage("Checkout"){
+            steps{
+                checkout scm
+            }
+        }
+    }
+
     stages {
         stage('Build') {
     agent {
@@ -11,28 +27,25 @@ pipeline {
     }
 
     steps {
-        steps("Cleanup workspace") {
-            cleanWs()
-        }
-        steps("Build Project") {
+        
+
             sh '''
-            # List files in the current workspace
-            ls -l
-            
-            # Display Python and pip versions
-            python --version
-            pip --version
-            
-            # Install dependencies (assuming requirements.txt exists)
-            pip install -r requirements.txt
-            
-            # Run the Flask application build or initialization commands
-            export FLASK_APP=app.py
-            flask --help # Check Flask is correctly installed
-            ls -l
-        '''
+                # List files in the current workspace
+                ls -l
+                
+                # Display Python and pip versions
+                python --version
+                pip --version
+                
+                # Install dependencies (assuming requirements.txt exists)
+                pip install -r requirements.txt
+                
+                # Run the Flask application build or initialization commands
+                export FLASK_APP=app.py
+                flask --help # Check Flask is correctly installed
+                ls -l
+            '''
         }
-    }
 
         }
     }
