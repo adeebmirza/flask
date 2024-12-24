@@ -15,18 +15,16 @@ pipeline {
             }
         }
     }
-
-    stages {
-        stage('Build') {
-    agent {
-        docker {
-            image 'python:3.11-alpine'
-            args '-u root'
-            reuseNode true // Reuse the node for the next stages
+    stage('Build') {
+        agent {
+            docker {
+                image 'python:3.11-alpine'
+                args '-u root'
+                reuseNode true // Reuse the node for the next stages
+            }
         }
-    }
 
-    steps {
+        steps {
         
 
             sh '''
@@ -45,7 +43,6 @@ pipeline {
                 flask --help # Check Flask is correctly installed
                 ls -l
             '''
-        }
 
         }
     }
