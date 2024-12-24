@@ -12,6 +12,7 @@ pipeline {
         stage("Checkout") {
             steps {
                 checkout scm
+                sh 'echo "Workspace contents after checkout:" && ls -R' // Debug: List all files and directories
             }
         }
         stage("Build") {
